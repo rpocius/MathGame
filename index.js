@@ -12,7 +12,7 @@ Ir taip tolyn iki 20 klausimu kada jau skelbi winner? Nereik per daug klausimu k
 */
 
 
-//Create a function to generate a random number in a specific range.
+// A function to generate a random number in a specific range.
 
 function randomNum(min, max) {
     let currentNum = Math.floor(Math.random() * max);
@@ -21,29 +21,40 @@ function randomNum(min, max) {
     } else return currentNum
 }
 
+// A function that generates either a plus or minus sign.
 function plusOrMinus() {
     let num = Math.floor(Math.random() * 2)
-    if (num = 0) {
+    if (num === 0) {
         return "+"
     } else return "-"
 }
 
-//create a function to ask the mask question
-let question = [];
+// An array that holds question and answer pairs.
+let questionArr = [];
 
+// A function that formats the math question.
 function askQuestion(min, max) {
     let num1 = randomNum(min, max);
     let num2 = randomNum(min, max);
     let action = plusOrMinus();
-    let quest = num1 + " " + action + " " + num2 + " =";
-    let ans = action === "+" ? num1 + num2 : num1 - num2;
-    return [quest, ans];
+
+    // Make sure there will be no negative numbers.
+    if (action === "-" && num1 < num2) {
+        do {
+            num1 = randomNum(min, max);
+          }
+          while (num1 < num2);
+    };
+
+    let question = num1 + " " + action + " " + num2 + " =";
+    let answer = action === "+" ? num1 + num2 : num1 - num2;
+
+    return [question, answer];
 }
 
 console.log(askQuestion(0, 10));
+let test1 = askQuestion(0, 10);
+questionArr.push(askQuestion(0, 10))
+console.log(questionArr[0][0]);
 
-//TOLIAU:
-//SUSETUPINT GIT IR GITHUB NAUJAM MAC 
-//SUKURT HTML IR CSS
-//PADARYT FUNKCIJA KURI PADUOS KLAUSIMA IR ATSAKYMA I DOM
-//SUTVARKYT GALUTINAI
+// Begin DOM manipulation
