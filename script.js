@@ -1,32 +1,18 @@
-/* 
-Math Game
-
-Solve addition or subtraction to move up
-Paprasta lygtis sudet du math random skaicius ir textbox irasyt atsakymui.
-Jei atsakymas teisingas - gauni kita klausima.
-Jei neteisingas - issoka lentele su your high score ir start over mygtukas. Advanced - trys gyvybes
-Pirmi penki klausimai is vienazenkliu skaiciu
-Kiti penki is dvizenkliu
-Ir taip tolyn iki 20 klausimu kada jau skelbi winner? Nereik per daug klausimu kad kazkas sugebetu pereit.
-
-*/
-
+// Math Game
+// Solve random addition or subtraction to move forward.
 
 // A function to generate a random number in a specific range.
-
 function randomNum(min, max) {
-    let currentNum = Math.floor(Math.random() * max);
+    let currentNum = Math.floor(Math.random() * (max - min + 1) + min);
     if (currentNum < min) {
-        currentNum = Math.floor(Math.random() * max);
-    } else return currentNum
+        currentNum = Math.floor(Math.random() * (max - min + 1) + min);
+    } else return currentNum;
 }
 
 // A function that generates either a plus or minus sign.
 function plusOrMinus() {
     let num = Math.floor(Math.random() * 2)
-    if (num === 0) {
-        return "+"
-    } else return "-"
+    return num === 0 ? "+" : "-";
 }
 
 // An array that holds question and answer pairs.
