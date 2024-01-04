@@ -92,7 +92,17 @@ function checkAnswer() {
 // Call the function to display the question and input elements on the DOM
 displayQuestionOnDOM();
 
+/*
+function askNewQuestion:
+    1. questionArr.push(askQuestion(0, 10)) (find a way to automatically increase difficulty, probably easiest with an if statement. Is arr.length enough to track progress, or do I need a separate var?
+    2. displayQuestionOnDOM (auto index the html elements' id)
 
+function ckeckNewAnswer:
+        1. checkAnswer
+            if correct: askNewQuestion
+            else: remove last correct answer from DOM
+
+big counter at the top/bottom of the page, that shows highscore.
 
 
 
