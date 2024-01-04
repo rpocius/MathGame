@@ -39,8 +39,69 @@ function askQuestion(min, max) {
 }
 
 console.log(askQuestion(0, 10));
-let test1 = askQuestion(0, 10);
 questionArr.push(askQuestion(0, 10))
 console.log(questionArr[0][0]);
 
-// Begin DOM manipulation
+
+
+// DOM manipulation test
+
+// A function that creates a child component with id "p1" and display the question
+function displayQuestionOnDOM() {
+    // Get the container div
+    let containerDiv = document.getElementById("container");
+
+    // Create a new paragraph element
+    let p1 = document.createElement("p");
+    p1.id = "p1";
+
+    // Get the question from questionArr and set it as the text content of the paragraph
+    p1.textContent = questionArr[0][0];
+
+    // Append the paragraph element to the container div
+    containerDiv.appendChild(p1);
+
+    // Create an input field
+    let inputField = document.createElement("input");
+    inputField.type = "number";
+    inputField.id = "userAnswer";
+
+    // Create a button
+    let checkButton = document.createElement("button");
+    checkButton.textContent = "Check Answer";
+    checkButton.onclick = checkAnswer;
+
+    // Append the input field and button to the container div
+    containerDiv.appendChild(inputField);
+    containerDiv.appendChild(checkButton);
+}
+
+// Function to check the user's answer
+function checkAnswer() {
+    // Get the user's answer from the input field
+    let userAnswer = parseInt(document.getElementById("userAnswer").value);
+
+    // Check if the user's answer is equal to the correct answer (questionArr[0][1])
+    if (userAnswer === questionArr[0][1]) {
+        alert("Correct!");
+    } else {
+        alert("Incorrect. Try again!");
+    }
+}
+
+// Call the function to display the question and input elements on the DOM
+displayQuestionOnDOM();
+
+
+
+
+
+/* Tomorrow: 
+    Create a function that automatically creates a new question-answer pair
+    Create a function that automatically asks a new question if the answer is correct
+    Go back when the answer is wrong?
+    Automate increasing difficulty
+    Point system? High score?
+    Display sth when you win?
+
+*/
