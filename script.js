@@ -92,6 +92,18 @@ function checkAnswer() {
 // Call the function to display the question and input elements on the DOM
 displayQuestionOnDOM();
 
+
+//function to automatically increase difficulty
+function askNewQuestion() {
+    //first 5 questions
+    if (questionArr.length >= 0 && questionArr.length <= 5) {
+        
+    }
+
+}
+
+
+
 /*
 function askNewQuestion:
     1. questionArr.push(askQuestion(0, 10)) (find a way to automatically increase difficulty, probably easiest with an if statement. Is arr.length enough to track progress, or do I need a separate var?
