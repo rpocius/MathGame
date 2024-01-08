@@ -85,6 +85,36 @@ function displayQuestionOnDOM() {
     containerDiv.appendChild(checkButton);
 }
 
+// Function to remove the last incorrect question from the DOM
+function removeLastIncorrectQuestion() {
+    // Get the container div
+    let containerDiv = document.getElementById("container");
+
+    // Get the last child element (paragraph) in the container
+    let lastChild = containerDiv.lastChild;
+
+    // Check if the last child is a paragraph and remove it
+    if (lastChild.nodeName === "P") {
+        containerDiv.removeChild(lastChild);
+    }
+
+    // Get the second-to-last child element (input field) in the container
+    let secondToLastChild = containerDiv.lastChild;
+
+    // Check if the second-to-last child is an input field and remove it
+    if (secondToLastChild.nodeName === "INPUT") {
+        containerDiv.removeChild(secondToLastChild);
+    }
+
+    // Get the third-to-last child element (button) in the container
+    let thirdToLastChild = containerDiv.lastChild;
+
+    // Check if the third-to-last child is a button and remove it
+    if (thirdToLastChild.nodeName === "BUTTON") {
+        containerDiv.removeChild(thirdToLastChild);
+    }
+}
+
 // Function to check the user's answer
 function checkAnswer() {
     // Get the user's answer from the input field
@@ -97,6 +127,12 @@ function checkAnswer() {
         displayQuestionOnDOM();
     } else {
         alert("Incorrect. Try again!");
+        removeLastIncorrectQuestion();
+        questionArr.shift();
+        index = questionArr.length
+        askNewQuestion();
+        index = questionArr.length + 1;
+        displayQuestionOnDOM();
     }
 }
 
@@ -126,4 +162,5 @@ big counter at the top/bottom of the page, that shows highscore.
     Point system? High score?
     Display sth when you win? 
     Create a timer and make high score based on time/difficulty ratio?
+    Remove check answer button from all answers
 */
