@@ -1,6 +1,10 @@
 // Math Game
 // Solve random addition or subtraction to move forward.
 
+// An array that holds question and answer pairs.
+let questionArr = [];
+let index = questionArr.length + 1;
+
 // A function to generate a random number in a specific range.
 function randomNum(min, max) {
     let currentNum = Math.floor(Math.random() * (max - min + 1) + min);
@@ -14,9 +18,6 @@ function plusOrMinus() {
     let num = Math.floor(Math.random() * 2)
     return num === 0 ? "+" : "-";
 }
-
-// An array that holds question and answer pairs.
-let questionArr = [];
 
 // A function that formats the math question.
 function askQuestion(min, max) {
@@ -38,33 +39,41 @@ function askQuestion(min, max) {
     return [question, answer];
 }
 
-console.log(askQuestion(0, 10));
-questionArr.push(askQuestion(0, 10))
-console.log(questionArr[0][0]);
+//function to automatically increase difficulty
+function askNewQuestion() {
+    //first 5 questions
+    if (questionArr.length >= 0 && questionArr.length <= 3) {
+        questionArr.unshift(askQuestion(0, 10))
+    } else if (questionArr.length > 3 && questionArr.length <= 6) {
+        questionArr.unshift(askQuestion(11, 30))
+    } else if (questionArr.length > 6 && questionArr.length <= 10) {
+        questionArr.unshift(askQuestion(31, 50))
+    } else if (questionArr.length > 10 && questionArr.length <= 20) {
+        questionArr.unshift(askQuestion(51, 100))
+    } else {questionArr.unshift(askQuestion(101, 1000))}
+}
 
 
 
-// DOM manipulation test
-
-// A function that creates a child component with id "p1" and display the question
+// A function that creates a child component with id "p1" and displays the question
 function displayQuestionOnDOM() {
     // Get the container div
     let containerDiv = document.getElementById("container");
 
     // Create a new paragraph element
-    let p1 = document.createElement("p");
-    p1.id = "p1";
+    let paragraph = document.createElement("p");
+    paragraph.id = "p" + index;
 
     // Get the question from questionArr and set it as the text content of the paragraph
-    p1.textContent = questionArr[0][0];
+    paragraph.textContent = questionArr[0][0];
 
     // Append the paragraph element to the container div
-    containerDiv.appendChild(p1);
+    containerDiv.appendChild(paragraph);
 
     // Create an input field
     let inputField = document.createElement("input");
     inputField.type = "number";
-    inputField.id = "userAnswer";
+    inputField.id = "userAnswer" + index;
 
     // Create a button
     let checkButton = document.createElement("button");
@@ -79,36 +88,29 @@ function displayQuestionOnDOM() {
 // Function to check the user's answer
 function checkAnswer() {
     // Get the user's answer from the input field
-    let userAnswer = parseInt(document.getElementById("userAnswer").value);
-
+    let userAnswer = parseInt(document.getElementById("userAnswer" + index).value);
     // Check if the user's answer is equal to the correct answer (questionArr[0][1])
     if (userAnswer === questionArr[0][1]) {
         alert("Correct!");
+        askNewQuestion();
+        index = questionArr.length + 1;
+        displayQuestionOnDOM();
     } else {
         alert("Incorrect. Try again!");
     }
 }
 
+// Ask the first question that will be displayed when page loads. Change to a start button?
+askNewQuestion();
 // Call the function to display the question and input elements on the DOM
 displayQuestionOnDOM();
 
 
-//function to automatically increase difficulty
-function askNewQuestion() {
-    //first 5 questions
-    if (questionArr.length >= 0 && questionArr.length <= 5) {
-        
-    }
 
-}
 
 
 
 /*
-function askNewQuestion:
-    1. questionArr.push(askQuestion(0, 10)) (find a way to automatically increase difficulty, probably easiest with an if statement. Is arr.length enough to track progress, or do I need a separate var?
-    2. displayQuestionOnDOM (auto index the html elements' id)
-
 function ckeckNewAnswer:
         1. checkAnswer
             if correct: askNewQuestion
@@ -119,11 +121,9 @@ big counter at the top/bottom of the page, that shows highscore.
 
 
 /* Tomorrow: 
-    Create a function that automatically creates a new question-answer pair
-    Create a function that automatically asks a new question if the answer is correct
     Go back when the answer is wrong?
-    Automate increasing difficulty
+    Better automate increasing difficulty
     Point system? High score?
-    Display sth when you win?
-
+    Display sth when you win? 
+    Create a timer and make high score based on time/difficulty ratio?
 */
