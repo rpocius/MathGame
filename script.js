@@ -4,6 +4,7 @@
 // An array that holds question and answer pairs.
 let questionArr = [];
 let index = questionArr.length + 1;
+let highScore = 0;
 
 // A function to generate a random number in a specific range.
 function randomNum(min, max) {
@@ -129,7 +130,8 @@ function checkAnswer() {
         if (buttonToRemove) {
             containerDiv.removeChild(buttonToRemove);
         }
-
+        highScore++;
+        updateHighScore()
         askNewQuestion();
         index = questionArr.length + 1;
         displayQuestionOnDOM();
@@ -138,16 +140,34 @@ function checkAnswer() {
         removeLastIncorrectQuestion();
         questionArr.shift();
         index = questionArr.length
+        highScore--;
+        updateHighScore()
         askNewQuestion();
         index = questionArr.length + 1;
         displayQuestionOnDOM();
     }
 }
 
+function updateHighScore() {
+    let highScoreDiv = document.getElementById("highscore");
+
+    // Clear the existing content in the div
+    highScoreDiv.innerHTML = "";
+
+    // Create a new paragraph element
+    let h3 = document.createElement("h3");
+
+    // Get the question from questionArr and set it as the text content of the paragraph
+    h3.textContent = "Your high score is: " + highScore;
+
+    highScoreDiv.appendChild(h3);
+}
+
 // Ask the first question that will be displayed when page loads. Change to a start button?
 askNewQuestion();
 // Call the function to display the question and input elements on the DOM
 displayQuestionOnDOM();
+updateHighScore();
 
 
 /* Tomorrow: 
@@ -156,4 +176,6 @@ displayQuestionOnDOM();
     Display sth when you win? 
     Create a timer and make high score based on time/difficulty ratio?
     CSS
+    automatically select a field to write in
+    remove input field after the question is answered correctly and change it to some kind of text displaying the right answer.
 */
