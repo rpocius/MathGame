@@ -75,8 +75,14 @@ function displayQuestionOnDOM() {
     inputField.type = "number";
     inputField.id = "userAnswer" + index;
 
+    // Remove non-numeric characters on input
+    inputField.addEventListener("input", function() {
+        this.value = this.value.replace(/[^0-9]/g, '');  
+    });
+
     // Create a button
     let checkButton = document.createElement("button");
+    checkButton.id = "checkButton" + index;
     checkButton.textContent = "Check Answer";
     checkButton.onclick = checkAnswer;
 
@@ -90,28 +96,22 @@ function removeLastIncorrectQuestion() {
     // Get the container div
     let containerDiv = document.getElementById("container");
 
-    // Get the last child element (paragraph) in the container
-    let lastChild = containerDiv.lastChild;
-
-    // Check if the last child is a paragraph and remove it
-    if (lastChild.nodeName === "P") {
-        containerDiv.removeChild(lastChild);
+    // Remove the paragraph with the current index
+    let paragraphToRemove = document.getElementById("p" + index);
+    if (paragraphToRemove) {
+        containerDiv.removeChild(paragraphToRemove);
     }
 
-    // Get the second-to-last child element (input field) in the container
-    let secondToLastChild = containerDiv.lastChild;
-
-    // Check if the second-to-last child is an input field and remove it
-    if (secondToLastChild.nodeName === "INPUT") {
-        containerDiv.removeChild(secondToLastChild);
+    // Remove the input field with the current index
+    let inputFieldToRemove = document.getElementById("userAnswer" + index);
+    if (inputFieldToRemove) {
+        containerDiv.removeChild(inputFieldToRemove);
     }
 
-    // Get the third-to-last child element (button) in the container
-    let thirdToLastChild = containerDiv.lastChild;
-
-    // Check if the third-to-last child is a button and remove it
-    if (thirdToLastChild.nodeName === "BUTTON") {
-        containerDiv.removeChild(thirdToLastChild);
+    // Remove the button with the current index
+    let buttonToRemove = document.getElementById("checkButton" + index);
+    if (buttonToRemove) {
+        containerDiv.removeChild(buttonToRemove);
     }
 }
 
@@ -122,6 +122,14 @@ function checkAnswer() {
     // Check if the user's answer is equal to the correct answer (questionArr[0][1])
     if (userAnswer === questionArr[0][1]) {
         alert("Correct!");
+
+        //remove button
+        let containerDiv = document.getElementById("container");
+        let buttonToRemove = document.getElementById("checkButton" + index);
+        if (buttonToRemove) {
+            containerDiv.removeChild(buttonToRemove);
+        }
+
         askNewQuestion();
         index = questionArr.length + 1;
         displayQuestionOnDOM();
@@ -142,25 +150,10 @@ askNewQuestion();
 displayQuestionOnDOM();
 
 
-
-
-
-
-/*
-function ckeckNewAnswer:
-        1. checkAnswer
-            if correct: askNewQuestion
-            else: remove last correct answer from DOM
-
-big counter at the top/bottom of the page, that shows highscore.
-
-
-
 /* Tomorrow: 
-    Go back when the answer is wrong?
     Better automate increasing difficulty
-    Point system? High score?
+    Point system? High score? Big counter at the top/bottom of the page, that shows highscore.
     Display sth when you win? 
     Create a timer and make high score based on time/difficulty ratio?
-    Remove check answer button from all answers
+    CSS
 */
