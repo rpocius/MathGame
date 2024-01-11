@@ -1,0 +1,24 @@
+body {
+    font-family: sans-serif;
+    text-align: center;
+}
+
+h1 {
+    font-size: 3em;
+}
+
+h3 {
+    font-size: 2em;
+}
+
+p {
+    font-size: 1.5em;
+}
+
+.right {
+    background-color: green;
+}
+
+.wrong {
+    background-color: red;
+}

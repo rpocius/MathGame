@@ -130,6 +130,7 @@ function highlightCorrectAnswer() {
     if (paragraphToEdit) {
         paragraphToEdit.textContent = questionArr[0][0] + " " + questionArr[0][1];
     }
+    paragraphToEdit.className = "right";
 
     // Remove the input field with the current index
     let inputFieldToRemove = document.getElementById("userAnswer" + index);
@@ -155,8 +156,9 @@ function highlightIncorrectAnswer() {
 
     let paragraphToEdit = document.getElementById("p" + index);
     if (paragraphToEdit) {
-        paragraphToEdit.textContent = newText + " " + inputAnswer;
+        paragraphToEdit.textContent = newText + " " + inputAnswer; // add some symbol if there is no inpout answer
     }
+    paragraphToEdit.className = "wrong";
 
     // Remove the input field with the current index
     let inputFieldToRemove = document.getElementById("userAnswer" + index);
