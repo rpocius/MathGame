@@ -43,15 +43,17 @@ function askQuestion(min, max) {
 //function to automatically increase difficulty
 function askNewQuestion() {
     //first 5 questions
-    if (questionArr.length >= 0 && questionArr.length <= 3) {
+    if (highScore <= 3) {
         questionArr.unshift(askQuestion(0, 10))
-    } else if (questionArr.length > 3 && questionArr.length <= 6) {
+    } else if (highScore > 3 && highScore <= 6) {
         questionArr.unshift(askQuestion(11, 30))
-    } else if (questionArr.length > 6 && questionArr.length <= 10) {
+    } else if (highScore > 6 && highScore <= 10) {
         questionArr.unshift(askQuestion(31, 50))
-    } else if (questionArr.length > 10 && questionArr.length <= 20) {
+    } else if (highScore > 10 && highScore <= 20) {
         questionArr.unshift(askQuestion(51, 100))
-    } else {questionArr.unshift(askQuestion(101, 1000))}
+    } else if (highScore > 20 && highScore <= 30) {
+        questionArr.unshift(askQuestion(101, 500))
+    } else {questionArr.unshift(askQuestion(500, 5000))}
 }
 
 
@@ -92,6 +94,7 @@ function displayQuestionOnDOM() {
     containerDiv.appendChild(checkButton);
 }
 
+/*
 // Function to remove the last incorrect question from the DOM
 function removeLastIncorrectQuestion() {
     // Get the container div
@@ -115,6 +118,58 @@ function removeLastIncorrectQuestion() {
         containerDiv.removeChild(buttonToRemove);
     }
 }
+*/
+
+// Function to to display user's answer as p element when it's correct
+function highlightCorrectAnswer() {
+    // Get the container div
+    let containerDiv = document.getElementById("container");
+
+    // Edit the paragraph with the current index
+    let paragraphToEdit = document.getElementById("p" + index);
+    if (paragraphToEdit) {
+        paragraphToEdit.textContent = questionArr[0][0] + " " + questionArr[0][1];
+    }
+
+    // Remove the input field with the current index
+    let inputFieldToRemove = document.getElementById("userAnswer" + index);
+    if (inputFieldToRemove) {
+        containerDiv.removeChild(inputFieldToRemove);
+    }
+
+    // Remove the button with the current index
+    let buttonToRemove = document.getElementById("checkButton" + index);
+    if (buttonToRemove) {
+        containerDiv.removeChild(buttonToRemove);
+    }
+}
+
+// Function to to display user's answer as p element when it's incorrect
+function highlightIncorrectAnswer() {
+    // Get the container div
+    let containerDiv = document.getElementById("container");
+
+    // Edit the paragraph with the current index
+    let newText = questionArr[0][0].replace("=", "≠")
+    let inputAnswer = parseInt(document.getElementById("userAnswer" + index).value);
+
+    let paragraphToEdit = document.getElementById("p" + index);
+    if (paragraphToEdit) {
+        paragraphToEdit.textContent = newText + " " + inputAnswer;
+    }
+
+    // Remove the input field with the current index
+    let inputFieldToRemove = document.getElementById("userAnswer" + index);
+    if (inputFieldToRemove) {
+        containerDiv.removeChild(inputFieldToRemove);
+    }
+
+    // Remove the button with the current index
+    let buttonToRemove = document.getElementById("checkButton" + index);
+    if (buttonToRemove) {
+        containerDiv.removeChild(buttonToRemove);
+    }
+}
 
 // Function to check the user's answer
 function checkAnswer() {
@@ -122,25 +177,28 @@ function checkAnswer() {
     let userAnswer = parseInt(document.getElementById("userAnswer" + index).value);
     // Check if the user's answer is equal to the correct answer (questionArr[0][1])
     if (userAnswer === questionArr[0][1]) {
-        alert("Correct!");
+        //alert("Correct!");
 
         //remove button
-        let containerDiv = document.getElementById("container");
-        let buttonToRemove = document.getElementById("checkButton" + index);
-        if (buttonToRemove) {
-            containerDiv.removeChild(buttonToRemove);
-        }
+        //let containerDiv = document.getElementById("container");
+        //let buttonToRemove = document.getElementById("checkButton" + index);
+        //if (buttonToRemove) {
+        //    containerDiv.removeChild(buttonToRemove);
+        //}
+        highlightCorrectAnswer()
         highScore++;
         updateHighScore()
         askNewQuestion();
         index = questionArr.length + 1;
         displayQuestionOnDOM();
     } else {
-        alert("Incorrect. Try again!");
-        removeLastIncorrectQuestion();
-        questionArr.shift();
-        index = questionArr.length
+        //alert("Incorrect. Try again!");
+        //removeLastIncorrectQuestion();
+        //questionArr.shift();
+        //index = questionArr.length
         highScore--;
+        highlightIncorrectAnswer();
+
         updateHighScore()
         askNewQuestion();
         index = questionArr.length + 1;
@@ -178,4 +236,6 @@ updateHighScore();
     CSS
     automatically select a field to write in
     remove input field after the question is answered correctly and change it to some kind of text displaying the right answer.
+    add a timer. maybe do the most you can in 2 minutes?
+    maybe paint wrong answers red instead of removing them?
 */
