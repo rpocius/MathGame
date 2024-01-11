@@ -15,10 +15,29 @@ p {
     font-size: 1.5em;
 }
 
-.right {
-    background-color: green;
+.question {
+    width: 150px;
+    height: 150px;
+    background-color: beige;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
 }
 
 .wrong {
     background-color: red;
+}
+
+.right {
+    background-color: green;
+}
+
+input {
+    max-width: 100px;
+}
+
+button {
+    max-width: 100px;
 }

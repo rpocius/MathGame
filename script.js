@@ -63,15 +63,16 @@ function displayQuestionOnDOM() {
     // Get the container div
     let containerDiv = document.getElementById("container");
 
+    let questionDiv = document.createElement("div");
+    questionDiv.className = "question";
+    questionDiv.id = "question" + index;
+
     // Create a new paragraph element
     let paragraph = document.createElement("p");
     paragraph.id = "p" + index;
 
     // Get the question from questionArr and set it as the text content of the paragraph
     paragraph.textContent = questionArr[0][0];
-
-    // Append the paragraph element to the container div
-    containerDiv.appendChild(paragraph);
 
     // Create an input field
     let inputField = document.createElement("input");
@@ -90,8 +91,10 @@ function displayQuestionOnDOM() {
     checkButton.onclick = checkAnswer;
 
     // Append the input field and button to the container div
-    containerDiv.appendChild(inputField);
-    containerDiv.appendChild(checkButton);
+    containerDiv.appendChild(questionDiv);
+    questionDiv.appendChild(paragraph);
+    questionDiv.appendChild(inputField);
+    questionDiv.appendChild(checkButton);
 }
 
 /*
@@ -123,32 +126,33 @@ function removeLastIncorrectQuestion() {
 // Function to to display user's answer as p element when it's correct
 function highlightCorrectAnswer() {
     // Get the container div
-    let containerDiv = document.getElementById("container");
+    let questionDiv = document.getElementById("question" + index);
 
     // Edit the paragraph with the current index
     let paragraphToEdit = document.getElementById("p" + index);
     if (paragraphToEdit) {
         paragraphToEdit.textContent = questionArr[0][0] + " " + questionArr[0][1];
     }
-    paragraphToEdit.className = "right";
+    
+    questionDiv.className = "question right";
 
     // Remove the input field with the current index
     let inputFieldToRemove = document.getElementById("userAnswer" + index);
     if (inputFieldToRemove) {
-        containerDiv.removeChild(inputFieldToRemove);
+        questionDiv.removeChild(inputFieldToRemove);
     }
 
     // Remove the button with the current index
     let buttonToRemove = document.getElementById("checkButton" + index);
     if (buttonToRemove) {
-        containerDiv.removeChild(buttonToRemove);
+        questionDiv.removeChild(buttonToRemove);
     }
 }
 
 // Function to to display user's answer as p element when it's incorrect
 function highlightIncorrectAnswer() {
     // Get the container div
-    let containerDiv = document.getElementById("container");
+    let questionDiv = document.getElementById("question" + index);
 
     // Edit the paragraph with the current index
     let newText = questionArr[0][0].replace("=", "≠")
@@ -156,20 +160,26 @@ function highlightIncorrectAnswer() {
 
     let paragraphToEdit = document.getElementById("p" + index);
     if (paragraphToEdit) {
-        paragraphToEdit.textContent = newText + " " + inputAnswer; // add some symbol if there is no inpout answer
+        if (inputAnswer) {
+            paragraphToEdit.textContent = newText + " " + inputAnswer;
+        } else {
+            paragraphToEdit.textContent = newText + " ?";
+        }
+         // add some symbol if there is no inpout answer
     }
-    paragraphToEdit.className = "wrong";
+    //paragraphToEdit.className = "wrong";
+    questionDiv.className = "question wrong";
 
     // Remove the input field with the current index
     let inputFieldToRemove = document.getElementById("userAnswer" + index);
     if (inputFieldToRemove) {
-        containerDiv.removeChild(inputFieldToRemove);
+        questionDiv.removeChild(inputFieldToRemove);
     }
 
     // Remove the button with the current index
     let buttonToRemove = document.getElementById("checkButton" + index);
     if (buttonToRemove) {
-        containerDiv.removeChild(buttonToRemove);
+        questionDiv.removeChild(buttonToRemove);
     }
 }
 
