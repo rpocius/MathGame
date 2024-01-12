@@ -34,7 +34,7 @@ function askQuestion(min, max) {
           while (num1 < num2);
     };
 
-    let question = num1 + " " + action + " " + num2 + " =";
+    let question = num1 + " " + action + " " + num2;
     let answer = action === "+" ? num1 + num2 : num1 - num2;
 
     return [question, answer];
@@ -70,9 +70,16 @@ function displayQuestionOnDOM() {
     // Create a new paragraph element
     let paragraph = document.createElement("p");
     paragraph.id = "p" + index;
+    paragraph.className = "questionPar";
 
     // Get the question from questionArr and set it as the text content of the paragraph
     paragraph.textContent = questionArr[0][0];
+
+    let equalSign = document.createElement("p");
+    equalSign.className = "equalSign";
+    equalSign.id = "equalSign" + index;
+    equalSign.textContent = "=";
+
 
     // Create an input field
     let inputField = document.createElement("input");
@@ -93,48 +100,21 @@ function displayQuestionOnDOM() {
     // Append the input field and button to the container div
     containerDiv.appendChild(questionDiv);
     questionDiv.appendChild(paragraph);
+    questionDiv.appendChild(equalSign);
     questionDiv.appendChild(inputField);
     questionDiv.appendChild(checkButton);
 }
-
-/*
-// Function to remove the last incorrect question from the DOM
-function removeLastIncorrectQuestion() {
-    // Get the container div
-    let containerDiv = document.getElementById("container");
-
-    // Remove the paragraph with the current index
-    let paragraphToRemove = document.getElementById("p" + index);
-    if (paragraphToRemove) {
-        containerDiv.removeChild(paragraphToRemove);
-    }
-
-    // Remove the input field with the current index
-    let inputFieldToRemove = document.getElementById("userAnswer" + index);
-    if (inputFieldToRemove) {
-        containerDiv.removeChild(inputFieldToRemove);
-    }
-
-    // Remove the button with the current index
-    let buttonToRemove = document.getElementById("checkButton" + index);
-    if (buttonToRemove) {
-        containerDiv.removeChild(buttonToRemove);
-    }
-}
-*/
 
 // Function to to display user's answer as p element when it's correct
 function highlightCorrectAnswer() {
     // Get the container div
     let questionDiv = document.getElementById("question" + index);
-
-    // Edit the paragraph with the current index
-    let paragraphToEdit = document.getElementById("p" + index);
-    if (paragraphToEdit) {
-        paragraphToEdit.textContent = questionArr[0][0] + " " + questionArr[0][1];
-    }
-    
     questionDiv.className = "question right";
+
+    let answerPar = document.createElement("p");
+    answerPar.id = "answerPar" + index;
+    answerPar.className = "answerPar";
+    answerPar.textContent = questionArr[0][1];
 
     // Remove the input field with the current index
     let inputFieldToRemove = document.getElementById("userAnswer" + index);
@@ -147,28 +127,32 @@ function highlightCorrectAnswer() {
     if (buttonToRemove) {
         questionDiv.removeChild(buttonToRemove);
     }
+
+    questionDiv.appendChild(answerPar);
+
 }
 
 // Function to to display user's answer as p element when it's incorrect
 function highlightIncorrectAnswer() {
-    // Get the container div
+    
     let questionDiv = document.getElementById("question" + index);
+    questionDiv.className = "question wrong";
 
-    // Edit the paragraph with the current index
-    let newText = questionArr[0][0].replace("=", "≠")
     let inputAnswer = parseInt(document.getElementById("userAnswer" + index).value);
 
-    let paragraphToEdit = document.getElementById("p" + index);
-    if (paragraphToEdit) {
+    let answerPar = document.createElement("p");
+    answerPar.id = "answerPar" + index;
+    answerPar.className = "answerPar";
+    answerPar.textContent = inputAnswer;
+
+    let signToEdit = document.getElementById("equalSign" + index);
+    if (signToEdit) {
         if (inputAnswer) {
-            paragraphToEdit.textContent = newText + " " + inputAnswer;
+            signToEdit.textContent = "≠";
         } else {
-            paragraphToEdit.textContent = newText + " ?";
+            signToEdit.textContent = "?";
         }
-         // add some symbol if there is no inpout answer
     }
-    //paragraphToEdit.className = "wrong";
-    questionDiv.className = "question wrong";
 
     // Remove the input field with the current index
     let inputFieldToRemove = document.getElementById("userAnswer" + index);
@@ -181,6 +165,8 @@ function highlightIncorrectAnswer() {
     if (buttonToRemove) {
         questionDiv.removeChild(buttonToRemove);
     }
+
+    questionDiv.appendChild(answerPar);
 }
 
 // Function to check the user's answer
