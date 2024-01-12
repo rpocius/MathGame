@@ -1,6 +1,12 @@
 body {
-    font-family: sans-serif;
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-decoration: none;
+    text-transform: uppercase;
     text-align: center;
+    background-color: #4ABDAC;
+    color: white;
 }
 
 h1 {
@@ -19,35 +25,82 @@ p {
 
 #container {
     display: flex;
-    flex-flow: column-reverse;
     flex-wrap: wrap;
     width: 90%;
-    height: 80%
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.252);
+    color: black;
+    border: 3px solid;
+    box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
 }
 
-.question {
+/*.question {
     width: 150px;
     height: 150px;
-    background-color: beige;
+    background-color: #DFDCE3;
     display: flex;
     flex-flow: column;
     align-items: center;
     justify-content: center;
-    border: 1px solid black;
+    border: 2px solid white;
+    border-radius: 30px;
+    margin: 10px;
+    box-shadow: 2px 2px 2px teal;
+    box-shadow: inset 0 0 8px 6px rgba(255, 255, 255, 0.481);
+}*/
+
+.question {
+    width: 150px;
+    height: 150px;
+    background-color: #DFDCE3;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    color: #000;
+    border: 3px solid;
+    box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
 }
 
 .wrong {
-    background-color: red;
+    background-color: #FC4A1A;
 }
 
 .right {
-    background-color: green;
+    background-color: #F7B733;
 }
 
 input {
-    max-width: 100px;
+    max-width: 50px;
 }
 
+/* CSS */
 button {
-    max-width: 100px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  letter-spacing: 2px;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #000;
+  cursor: pointer;
+  border: 3px solid;
+  padding: 0.25em 0.5em;
+  box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+button:active {
+  box-shadow: 0px 0px 0px 0px;
+  top: 5px;
+  left: 5px;
+}
+
+@media (min-width: 768px) {
+  button {
+    padding: 0.25em 0.75em;
+  }
 }

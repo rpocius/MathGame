@@ -40,9 +40,8 @@ function askQuestion(min, max) {
     return [question, answer];
 }
 
-//function to automatically increase difficulty
+// Function to automatically increase difficulty
 function askNewQuestion() {
-    //first 5 questions
     if (highScore <= 3) {
         questionArr.unshift(askQuestion(0, 10))
     } else if (highScore > 3 && highScore <= 6) {
@@ -56,18 +55,16 @@ function askNewQuestion() {
     } else {questionArr.unshift(askQuestion(500, 5000))}
 }
 
-
-
-// A function that creates a child component with id "p1" and displays the question
+// A function that creates a child component with id "p1" and displays the question on DOM
 function displayQuestionOnDOM() {
-    // Get the container div
     let containerDiv = document.getElementById("container");
 
+    // Create a div to hold the question and answer
     let questionDiv = document.createElement("div");
     questionDiv.className = "question";
     questionDiv.id = "question" + index;
 
-    // Create a new paragraph element
+    // Create a new paragraph element for the question
     let paragraph = document.createElement("p");
     paragraph.id = "p" + index;
     paragraph.className = "questionPar";
@@ -75,6 +72,7 @@ function displayQuestionOnDOM() {
     // Get the question from questionArr and set it as the text content of the paragraph
     paragraph.textContent = questionArr[0][0];
 
+    // Create an equal sign as a separate p element
     let equalSign = document.createElement("p");
     equalSign.className = "equalSign";
     equalSign.id = "equalSign" + index;
@@ -91,26 +89,38 @@ function displayQuestionOnDOM() {
         this.value = this.value.replace(/[^0-9]/g, '');  
     });
 
+    // Add event listener for the Enter key
+    inputField.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            checkAnswer();
+        }
+    });
+
     // Create a button
     let checkButton = document.createElement("button");
     checkButton.id = "checkButton" + index;
-    checkButton.textContent = "Check Answer";
+    checkButton.textContent = "Check";
     checkButton.onclick = checkAnswer;
 
     // Append the input field and button to the container div
-    containerDiv.appendChild(questionDiv);
+    containerDiv.insertBefore(questionDiv, containerDiv.firstChild);
+    //containerDiv.appendChild(questionDiv);
     questionDiv.appendChild(paragraph);
     questionDiv.appendChild(equalSign);
     questionDiv.appendChild(inputField);
     questionDiv.appendChild(checkButton);
+
+    // Automatically focus on the input field
+    inputField.focus();
 }
 
-// Function to to display user's answer as p element when it's correct
+// Function to to display user's answer as a p element when it's correct
 function highlightCorrectAnswer() {
-    // Get the container div
+    // Get the question div and add the right class name
     let questionDiv = document.getElementById("question" + index);
     questionDiv.className = "question right";
 
+    // Create a separate p element for the answer
     let answerPar = document.createElement("p");
     answerPar.id = "answerPar" + index;
     answerPar.className = "answerPar";
@@ -128,16 +138,18 @@ function highlightCorrectAnswer() {
         questionDiv.removeChild(buttonToRemove);
     }
 
+    // Append the p element with the right answer
     questionDiv.appendChild(answerPar);
 
 }
 
-// Function to to display user's answer as p element when it's incorrect
+// Function to to display user's answer as a p element when it's incorrect
 function highlightIncorrectAnswer() {
-    
+    // Get the question div and add the wrong class name
     let questionDiv = document.getElementById("question" + index);
     questionDiv.className = "question wrong";
 
+    // Get the user's input value, assign it's value to newly created p element
     let inputAnswer = parseInt(document.getElementById("userAnswer" + index).value);
 
     let answerPar = document.createElement("p");
@@ -145,6 +157,7 @@ function highlightIncorrectAnswer() {
     answerPar.className = "answerPar";
     answerPar.textContent = inputAnswer;
 
+    // Change the equal sign to unequal, add a ? symbol if there is no user input value
     let signToEdit = document.getElementById("equalSign" + index);
     if (signToEdit) {
         if (inputAnswer) {
@@ -167,7 +180,22 @@ function highlightIncorrectAnswer() {
         questionDiv.removeChild(buttonToRemove);
     }
 
+    // Append the created p element
     questionDiv.appendChild(answerPar);
+}
+
+// Function to update the highscore on the page
+function updateHighScore() {
+    // Get the highscore div
+    let highScoreDiv = document.getElementById("highscore");
+
+    // Clear the existing content in the div
+    highScoreDiv.innerHTML = "";
+
+    // Create a new h3 element that displays the current highscore and append it to highScoreDiv
+    let h3 = document.createElement("h3");
+    h3.textContent = "Your high score is: " + highScore;
+    highScoreDiv.appendChild(h3);
 }
 
 // Function to check the user's answer
@@ -176,14 +204,6 @@ function checkAnswer() {
     let userAnswer = parseInt(document.getElementById("userAnswer" + index).value);
     // Check if the user's answer is equal to the correct answer (questionArr[0][1])
     if (userAnswer === questionArr[0][1]) {
-        //alert("Correct!");
-
-        //remove button
-        //let containerDiv = document.getElementById("container");
-        //let buttonToRemove = document.getElementById("checkButton" + index);
-        //if (buttonToRemove) {
-        //    containerDiv.removeChild(buttonToRemove);
-        //}
         highlightCorrectAnswer()
         highScore++;
         updateHighScore()
@@ -191,13 +211,8 @@ function checkAnswer() {
         index = questionArr.length + 1;
         displayQuestionOnDOM();
     } else {
-        //alert("Incorrect. Try again!");
-        //removeLastIncorrectQuestion();
-        //questionArr.shift();
-        //index = questionArr.length
         highScore--;
         highlightIncorrectAnswer();
-
         updateHighScore()
         askNewQuestion();
         index = questionArr.length + 1;
@@ -205,20 +220,7 @@ function checkAnswer() {
     }
 }
 
-function updateHighScore() {
-    let highScoreDiv = document.getElementById("highscore");
 
-    // Clear the existing content in the div
-    highScoreDiv.innerHTML = "";
-
-    // Create a new paragraph element
-    let h3 = document.createElement("h3");
-
-    // Get the question from questionArr and set it as the text content of the paragraph
-    h3.textContent = "Your high score is: " + highScore;
-
-    highScoreDiv.appendChild(h3);
-}
 
 // Ask the first question that will be displayed when page loads. Change to a start button?
 askNewQuestion();
