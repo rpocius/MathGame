@@ -150,7 +150,8 @@ function highlightIncorrectAnswer() {
         if (inputAnswer) {
             signToEdit.textContent = "≠";
         } else {
-            signToEdit.textContent = "?";
+            signToEdit.textContent = "≠";
+            answerPar.textContent = "?";
         }
     }
 

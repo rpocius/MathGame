@@ -17,6 +17,14 @@ p {
 
 }
 
+#container {
+    display: flex;
+    flex-flow: column-reverse;
+    flex-wrap: wrap;
+    width: 90%;
+    height: 80%
+}
+
 .question {
     width: 150px;
     height: 150px;
