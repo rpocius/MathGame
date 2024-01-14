@@ -220,13 +220,33 @@ function checkAnswer() {
     }
 }
 
+// Create a start button
+function startButton() {
+    let containerDiv = document.getElementById("container");
 
+    let startButton = document.createElement("button");
+    startButton.id = "startButton";
+    startButton.textContent = "Start";
+    startButton.onclick = function () {
+        containerDiv.removeChild(startButton);
+        askNewQuestion();
+        displayQuestionOnDOM();
+    };
 
+    containerDiv.appendChild(startButton);
+    startButton.focus();
+}
+
+updateHighScore();
+startButton();
+
+/*
 // Ask the first question that will be displayed when page loads. Change to a start button?
 askNewQuestion();
 // Call the function to display the question and input elements on the DOM
 displayQuestionOnDOM();
 updateHighScore();
+*/
 
 
 /* Tomorrow: 
