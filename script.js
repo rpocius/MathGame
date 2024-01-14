@@ -30,8 +30,8 @@ function askQuestion(min, max) {
     if (action === "-" && num1 < num2) {
         do {
             num1 = randomNum(min, max);
-          }
-          while (num1 < num2);
+        }
+        while (num1 < num2);
     };
 
     let question = num1 + " " + action + " " + num2;
@@ -52,7 +52,7 @@ function askNewQuestion() {
         questionArr.unshift(askQuestion(51, 100))
     } else if (highScore > 20 && highScore <= 30) {
         questionArr.unshift(askQuestion(101, 500))
-    } else {questionArr.unshift(askQuestion(500, 5000))}
+    } else { questionArr.unshift(askQuestion(500, 5000)) }
 }
 
 // A function that creates a child component with id "p1" and displays the question on DOM
@@ -78,15 +78,14 @@ function displayQuestionOnDOM() {
     equalSign.id = "equalSign" + index;
     equalSign.textContent = "=";
 
-
     // Create an input field
     let inputField = document.createElement("input");
     inputField.type = "number";
     inputField.id = "userAnswer" + index;
 
     // Remove non-numeric characters on input
-    inputField.addEventListener("input", function() {
-        this.value = this.value.replace(/[^0-9]/g, '');  
+    inputField.addEventListener("input", function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
     });
 
     // Add event listener for the Enter key
@@ -194,7 +193,7 @@ function updateHighScore() {
 
     // Create a new h3 element that displays the current highscore and append it to highScoreDiv
     let h3 = document.createElement("h3");
-    h3.textContent = "Your high score is: " + highScore;
+    h3.textContent = "Score: " + highScore;
     highScoreDiv.appendChild(h3);
 }
 
@@ -220,6 +219,39 @@ function checkAnswer() {
     }
 }
 
+// Function to update the timer on the page
+function updateTimer(seconds) {
+    let timerDiv = document.getElementById("timer");
+
+    // Clear the existing content in the div
+    timerDiv.innerHTML = "";
+
+    // Create a new h3 element that displays the current time and append it to timerDiv
+    let h3 = document.createElement("h3");
+    h3.textContent = "Time left: " + seconds + " seconds";
+    timerDiv.appendChild(h3);
+}
+
+// Function to start the game with a timer
+function startGameWithTimer() {
+    let timerSeconds = 119; // 2 minutes
+
+    // Update the timer every second
+    let timerInterval = setInterval(function () {
+        updateTimer(timerSeconds);
+        timerSeconds--;
+
+        if (timerSeconds < 0) {
+            clearInterval(timerInterval);
+            gameOver();
+        }
+    }, 1000);
+
+    // Start the game
+    askNewQuestion();
+    displayQuestionOnDOM();
+}
+
 // Create a start button
 function startButton() {
     let containerDiv = document.getElementById("container");
@@ -229,34 +261,38 @@ function startButton() {
     startButton.textContent = "Start";
     startButton.onclick = function () {
         containerDiv.removeChild(startButton);
-        askNewQuestion();
-        displayQuestionOnDOM();
+        startGameWithTimer(); // Start the game with a timer
     };
 
     containerDiv.appendChild(startButton);
     startButton.focus();
 }
 
+// Function to show score when time is up
+function gameOver() {
+    let containerDiv = document.getElementById("container");
+    containerDiv.innerHTML = "";
+
+    let scoreDiv = document.createElement("div");
+    scoreDiv.id = "scoreDiv";
+    containerDiv.appendChild(scoreDiv);
+
+    let scoreCard = document.createElement("h3");
+    scoreCard.textContent = "Game Over! Your final score is: " + highScore;
+    scoreDiv.appendChild(scoreCard);
+
+    let restartButton = document.createElement("button");
+    restartButton.id = "restartButton";
+    restartButton.textContent = "Restart";
+    restartButton.onclick = function () {
+        containerDiv.innerHTML = "";
+        startGameWithTimer(); // Start the game with a timer
+    };
+
+    scoreDiv.appendChild(restartButton);
+    restartButton.focus();
+}
+
+
 updateHighScore();
 startButton();
-
-/*
-// Ask the first question that will be displayed when page loads. Change to a start button?
-askNewQuestion();
-// Call the function to display the question and input elements on the DOM
-displayQuestionOnDOM();
-updateHighScore();
-*/
-
-
-/* Tomorrow: 
-    Better automate increasing difficulty
-    Point system? High score? Big counter at the top/bottom of the page, that shows highscore.
-    Display sth when you win? 
-    Create a timer and make high score based on time/difficulty ratio?
-    CSS
-    automatically select a field to write in
-    remove input field after the question is answered correctly and change it to some kind of text displaying the right answer.
-    add a timer. maybe do the most you can in 2 minutes?
-    maybe paint wrong answers red instead of removing them?
-*/
